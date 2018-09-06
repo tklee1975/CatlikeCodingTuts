@@ -17,9 +17,9 @@ public class Fractal : MonoBehaviour {
 	public float spawnProbability = 0.8f;
 	
 
-	[Header("Rotation Setting")]
+	[Header("Rotation and Twist Setting")]
 	public float maxRotationSpeed;	
-	private float mRotationSpeed;
+	public float maxTwist;
 
 	[Header("Fractal Setting")]
 	public float generationRate = 0;
@@ -33,6 +33,7 @@ public class Fractal : MonoBehaviour {
 
 	// internal 
 	//private Vector3 
+	private float mRotationSpeed;
 	private int mDepth;
 	private Material[,] mMaterials;
 
@@ -121,6 +122,7 @@ public class Fractal : MonoBehaviour {
 		mMaterials = parent.mMaterials;
 		maxRotationSpeed = parent.maxRotationSpeed;
 		maxDepth = parent.maxDepth;
+		maxTwist = parent.maxTwist;
 		mDepth = parent.mDepth + 1;
 		spawnProbability = parent.spawnProbability;
 		generationRate = parent.generationRate;
@@ -134,6 +136,12 @@ public class Fractal : MonoBehaviour {
 		transform.localRotation = Quaternion.Euler(rotateEuler.x, rotateEuler.y, rotateEuler.z);
 		transform.localScale = Vector3.one * parent.childScale;
 		transform.localPosition = direction * (0.5f + 0.5f * childScale);
+
+		transform.Rotate(GetRandomTwist(), 0, 0);
+	}
+
+	float GetRandomTwist() {
+		return Random.Range(-maxTwist, maxTwist);
 	}
 	
 	// Update is called once per frame

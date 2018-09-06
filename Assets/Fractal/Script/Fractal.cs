@@ -14,6 +14,7 @@ public class Fractal : MonoBehaviour {
 	public Mesh[] meshes;
 	//public Mesh mesh;
 	public Material material;
+	public float spawnProbability = 0.8f;
 	
 
 	[Header("Fractal Setting")]
@@ -82,14 +83,19 @@ public class Fractal : MonoBehaviour {
 
 	void CreateFractalChildInstantly() {
 		foreach(FractalDir dir in directionList) {
-			AddFractalChild(dir.position, dir.rotation);
+			if(CanSpawn()) {
+				AddFractalChild(dir.position, dir.rotation);
+			}
+			
 		}
 	}
 
 	IEnumerator CreateFractalChildProgressive() {
 		foreach(FractalDir dir in directionList) {
-			yield return new WaitForSeconds(generationRate);
-			AddFractalChild(dir.position, dir.rotation);
+			if(CanSpawn()) {
+				yield return new WaitForSeconds(generationRate);
+				AddFractalChild(dir.position, dir.rotation);
+			}
 		}
 	}
 
@@ -99,12 +105,17 @@ public class Fractal : MonoBehaviour {
 		fractal.Initialize(this, direction, rotateEuler);	// Setup the child properties
 	}
 
+	bool CanSpawn() {
+		return Random.value < spawnProbability;
+	}
+
 	private void Initialize(Fractal parent, Vector3 direction, Vector3 rotateEuler) {
 		meshes = parent.meshes;
 		material = parent.material;
 		mMaterials = parent.mMaterials;
 		maxDepth = parent.maxDepth;
 		mDepth = parent.mDepth + 1;
+		spawnProbability = parent.spawnProbability;
 		generationRate = parent.generationRate;
 		childScale = parent.childScale;
 		directionList = parent.directionList;

@@ -17,6 +17,10 @@ public class Fractal : MonoBehaviour {
 	public float spawnProbability = 0.8f;
 	
 
+	[Header("Rotation Setting")]
+	public float maxRotationSpeed;	
+	private float mRotationSpeed;
+
 	[Header("Fractal Setting")]
 	public float generationRate = 0;
 	public int maxDepth;
@@ -38,6 +42,8 @@ public class Fractal : MonoBehaviour {
 		if (mMaterials == null) {
 			InitializeMaterials();
 		}
+
+		mRotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
 
 		gameObject.AddComponent<MeshFilter>().mesh = GetRandomMesh();
 		gameObject.AddComponent<MeshRenderer>().material = GetRandomMaterial(mDepth);	// mMaterials[mDepth,2];
@@ -113,6 +119,7 @@ public class Fractal : MonoBehaviour {
 		meshes = parent.meshes;
 		material = parent.material;
 		mMaterials = parent.mMaterials;
+		maxRotationSpeed = parent.maxRotationSpeed;
 		maxDepth = parent.maxDepth;
 		mDepth = parent.mDepth + 1;
 		spawnProbability = parent.spawnProbability;
@@ -131,6 +138,6 @@ public class Fractal : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		transform.Rotate(0f, mRotationSpeed * Time.deltaTime, 0f);
 	}
 }

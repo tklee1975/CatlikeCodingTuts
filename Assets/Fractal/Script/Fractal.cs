@@ -11,7 +11,8 @@ public class Fractal : MonoBehaviour {
 	}
 
 	[Header("Rendering Setting")]
-	public Mesh mesh;
+	public Mesh[] meshes;
+	//public Mesh mesh;
 	public Material material;
 	
 
@@ -28,7 +29,7 @@ public class Fractal : MonoBehaviour {
 	// internal 
 	//private Vector3 
 	private int mDepth;
-	private Material[] mMaterials;
+	private Material[,] mMaterials;
 
 
 	// Use this for initialization
@@ -37,8 +38,8 @@ public class Fractal : MonoBehaviour {
 			InitializeMaterials();
 		}
 
-		gameObject.AddComponent<MeshFilter>().mesh = mesh;
-		gameObject.AddComponent<MeshRenderer>().material = mMaterials[mDepth];
+		gameObject.AddComponent<MeshFilter>().mesh = GetRandomMesh();
+		gameObject.AddComponent<MeshRenderer>().material = GetRandomMaterial(mDepth);	// mMaterials[mDepth,2];
 		
 
 		if(mDepth < maxDepth) {
@@ -51,18 +52,32 @@ public class Fractal : MonoBehaviour {
 		}
 	}
 
+	Mesh GetRandomMesh() {
+		int randIndex = Random.Range(0, meshes.Length);
+		return meshes[randIndex];
+	}
+
+	Material GetRandomMaterial(int depth) {
+		int randIndex = Random.Range(0, 2);
+		return mMaterials[depth, randIndex];
+	}
+
 	void InitializeMaterials() {
-		mMaterials = new Material[maxDepth + 1];
+		mMaterials = new Material[maxDepth + 1,2];
 
 		for(int i=0; i<= maxDepth; i++) {
-			mMaterials[i] = new Material(material);
+			
 
 			float t = i / (maxDepth - 1f);
 			t *= t;
 
-			mMaterials[i].color = Color.Lerp(Color.white, Color.yellow, t);
+			mMaterials[i, 0] = new Material(material);
+			mMaterials[i, 0].color = Color.Lerp(Color.white, Color.yellow, t);
+			mMaterials[i, 1] = new Material(material);
+			mMaterials[i, 1].color = Color.Lerp(Color.white, Color.cyan, t);
 		}
-		mMaterials[maxDepth].color = Color.red;	// the tip is red 
+		mMaterials[maxDepth, 0].color = Color.red;	// the tip is red 
+		mMaterials[maxDepth, 1].color = Color.magenta;
 	}
 
 	void CreateFractalChildInstantly() {
@@ -85,7 +100,7 @@ public class Fractal : MonoBehaviour {
 	}
 
 	private void Initialize(Fractal parent, Vector3 direction, Vector3 rotateEuler) {
-		mesh = parent.mesh;
+		meshes = parent.meshes;
 		material = parent.material;
 		mMaterials = parent.mMaterials;
 		maxDepth = parent.maxDepth;

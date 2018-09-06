@@ -39,7 +39,6 @@ public class Fractal : MonoBehaviour {
 
 		gameObject.AddComponent<MeshFilter>().mesh = mesh;
 		gameObject.AddComponent<MeshRenderer>().material = mMaterials[mDepth];
-		//GetComponent<MeshRenderer>().material.color = 
 		
 
 		if(mDepth < maxDepth) {
@@ -59,9 +58,9 @@ public class Fractal : MonoBehaviour {
 			mMaterials[i] = new Material(material);
 
 			float t = i / (maxDepth - 1f);
-			//t *= t;
+			t *= t;
 
-			material.color = Color.Lerp(Color.white, Color.yellow, t);
+			mMaterials[i].color = Color.Lerp(Color.white, Color.yellow, t);
 		}
 		mMaterials[maxDepth].color = Color.red;	// the tip is red 
 	}

@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  material: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  material: {fileID: 2100000, guid: 8e89706671eb64c6ea4c1308cc3cac13, type: 2}
   generationRate: 0
   maxDepth: 4
   childScale: 0.5

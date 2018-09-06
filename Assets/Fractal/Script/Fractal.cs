@@ -28,14 +28,18 @@ public class Fractal : MonoBehaviour {
 	// internal 
 	//private Vector3 
 	private int mDepth;
+	private Material[] mMaterials;
 
 
 	// Use this for initialization
 	void Start () {
+		if (mMaterials == null) {
+			InitializeMaterials();
+		}
+
 		gameObject.AddComponent<MeshFilter>().mesh = mesh;
-		gameObject.AddComponent<MeshRenderer>().material = material;
-		GetComponent<MeshRenderer>().material.color =
-			Color.Lerp(Color.white, Color.yellow, (float)mDepth / maxDepth);
+		gameObject.AddComponent<MeshRenderer>().material = mMaterials[mDepth];
+		//GetComponent<MeshRenderer>().material.color = 
 		
 
 		if(mDepth < maxDepth) {
@@ -46,6 +50,20 @@ public class Fractal : MonoBehaviour {
 			}
 			
 		}
+	}
+
+	void InitializeMaterials() {
+		mMaterials = new Material[maxDepth + 1];
+
+		for(int i=0; i<= maxDepth; i++) {
+			mMaterials[i] = new Material(material);
+
+			float t = i / (maxDepth - 1f);
+			//t *= t;
+
+			material.color = Color.Lerp(Color.white, Color.yellow, t);
+		}
+		mMaterials[maxDepth].color = Color.red;	// the tip is red 
 	}
 
 	void CreateFractalChildInstantly() {
@@ -70,6 +88,7 @@ public class Fractal : MonoBehaviour {
 	private void Initialize(Fractal parent, Vector3 direction, Vector3 rotateEuler) {
 		mesh = parent.mesh;
 		material = parent.material;
+		mMaterials = parent.mMaterials;
 		maxDepth = parent.maxDepth;
 		mDepth = parent.mDepth + 1;
 		generationRate = parent.generationRate;

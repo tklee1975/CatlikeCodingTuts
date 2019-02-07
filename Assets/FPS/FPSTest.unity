@@ -1056,12 +1056,12 @@ Prefab:
     - target: {fileID: 224833263289227284, guid: 488147d7c93ed4f52b9f9fee6e7a3306,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224833263289227284, guid: 488147d7c93ed4f52b9f9fee6e7a3306,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 488147d7c93ed4f52b9f9fee6e7a3306, type: 2}

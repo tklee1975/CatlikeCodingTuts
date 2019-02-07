@@ -12,7 +12,7 @@ Learning Stuff:
 - Coloring the frame rate 
 
 Learning Stuff:
-Default Modifiers, Prefab, FixedUpdate 
+Default Modifiers, Prefab, FixedUpdate, TimeManager,
 
 Ever-growing atomic nuclues
 - Making Nucleon 
